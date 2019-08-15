@@ -1,20 +1,29 @@
 pipeline {
-    agent any
-    stage("Build"){
-        steps{
-            echo "Build Stage"
+    agent { label 'linux' }
+    tools {
+        maven 'M3'
+    }
+    stages {
+        stage ('Checkout') {
+          steps {
+            git 'https://github.com/effectivejenkins/myProject.git'
+          }
         }
-    stage("Test"){
-        steps{
-            echo "Test Stage"
+        stage('Build') {
+            steps {
+                sh 'mvn clean compile'
+            }
         }
-    stage("Deploy"){
-        steps{
-            echo "Deploy Stage"
+        stage('Test'){
+            steps {
+                sh 'mvn test'
+                junit '**/target/surefire-reports/TEST-*.xml'
+            }
         }
-
+        stage('Package') {
+            steps {
+                sh 'mvn package'
+            }
         }
-        
-
     }
 }
