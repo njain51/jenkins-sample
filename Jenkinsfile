@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage ('Checkout') {
           steps {
-            git 'https://github.com/effectivejenkins/myProject.git'
+            git 'https://github.com/nitinjain9282/jenkins-sample.git'
           }
         }
         stage('Build') {
